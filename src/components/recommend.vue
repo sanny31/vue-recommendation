@@ -38,7 +38,6 @@
 <script>
   import { Group, Cell, CellBox, Divider, XTextarea, XInput, XButton, Icon, Box } from 'vux'
   import { mapState } from 'vuex'
-  import $ from 'jquery'
 
   export default {
     name: 'recommend',
@@ -69,7 +68,6 @@
     methods: {
       submit (event) {
         var validation = this.$store.getters.getRecommendationValidation
-        console.log(validation)
         if (validation.success === false) {
           this.$vux.toast.show({
             type: 'warn',
@@ -77,41 +75,7 @@
           })
           return
         }
-        this.$vux.loading.show({
-          text: '提交中'
-        })
-        console.log(this.recommendation)
-        let vm = this
-        $.ajax({
-          url: 'http://localhost:48971/api/recommendation/submit',
-          type: 'POST',
-          cache: false,
-          data: this.recommendation,
-          success: function (res, tStatus, xhr) {
-            console.log(res)
-            if (res.success === true) {
-              vm.$vux.toast.show({
-                type: 'success',
-                text: '提交成功'
-              })
-              vm.$store.dispatch('clearRecommendation')
-            } else {
-              vm.$vux.toast.show({
-                type: 'warn',
-                text: res.data.error
-              })
-            }
-          },
-          error: function (xhr, tStatus) {
-            vm.$vux.toast.show({
-              type: 'warn',
-              text: '出现异常'
-            })
-          },
-          complete: function () {
-            vm.$vux.loading.hide()
-          }
-        })
+        this.$router.push('/confirm')
       },
       onFileChange (e) {
         var files = e.target.files || e.dataTransfer.files

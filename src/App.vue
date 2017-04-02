@@ -47,6 +47,7 @@ export default {
     title () {
       if (this.route.path === '/' || this.route.path === '/index.html') return '推荐'
       if (this.route.path === '/intro') return '推荐平台规则'
+      if (this.route.path === '/confirm') return '确认您的推荐'
       return 'undefined'
     },
     leftOptions () {
@@ -59,7 +60,7 @@ export default {
     }
   },
   mounted: function () {
-    this.$http.get('http://localhost:48971/api/recommendation/rules').then((res) => {
+    this.$http.get('http://localhost:75564/api/recommendation/rules').then((res) => {
       console.log(res)
       if (res.data !== null) {
         var result = res.data

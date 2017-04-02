@@ -25,12 +25,12 @@ store.registerModule('zxy', {
     isLogin: false,
     dividerText: '下面没有内容啦',
     recommendation: {
-      Title: '',
-      WxAccount: '',
-      Nickname: '',
-      Telphone: '',
-      Email: '',
-      Content: '',
+      Title: '标题',
+      WxAccount: '微信号',
+      Nickname: '我的名字',
+      Telphone: '13355556666',
+      Email: 'a@a.com',
+      Content: 'sadasdasd',
       Pictures: []
     },
     rules: ''
