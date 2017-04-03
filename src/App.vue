@@ -60,7 +60,7 @@ export default {
     }
   },
   mounted: function () {
-    this.$http.get('http://localhost:75564/api/recommendation/rules').then((res) => {
+    this.$http.get('http://share.cm0575.com/api/recommendation/rules').then((res) => {
       console.log(res)
       if (res.data !== null) {
         var result = res.data

@@ -70,7 +70,7 @@
             console.log(this.recommendation)
             let vm = this
             $.ajax({
-              url: 'http://localhost:75564/api/recommendation/submit',
+              url: 'http://share.cm0575.com/api/recommendation/submit',
               type: 'POST',
               cache: false,
               data: this.recommendation,

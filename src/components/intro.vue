@@ -1,9 +1,9 @@
 <template>
   <div>
     <group>
-      <cell-box>
-        <div v-html='rules'>{{rules}}</div>        
-      </cell-box>
+      <box gap="10px 10px">
+        <div v-html='rules'>{{rules}}</div> 
+      </box>
     </group>
     <box gap="10px 10px">
       <x-button type="default" action-type="button" v-on:click.native="routerBack">返 回</x-button>
@@ -12,7 +12,7 @@
   </div>
 </template>
 <script>
-  import { Group, Cell, CellBox, Box, Divider, XButton } from 'vux'
+  import { Group, Box, Divider, XButton } from 'vux'
   import { mapState } from 'vuex'
   
   export default {
@@ -20,8 +20,6 @@
     components: {
       Box,
       Group,
-      Cell,
-      CellBox,
       Divider,
       XButton
     },
