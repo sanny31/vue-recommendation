@@ -15,6 +15,7 @@
 <script>
 import { ViewBox, XHeader, Loading, TransferDomDirective as TransferDom } from 'vux'
 import { mapState } from 'vuex'
+import axios from 'axios'
 
 export default {
   name: 'app',
@@ -60,7 +61,7 @@ export default {
     }
   },
   mounted: function () {
-    this.$http.get('http://share.cm0575.com/api/recommendation/rules').then((res) => {
+    axios.get('api/recommendation/rules').then((res) => {
       console.log(res)
       if (res.data !== null) {
         var result = res.data

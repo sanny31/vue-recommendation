@@ -7,7 +7,9 @@ import { sync } from 'vuex-router-sync'
 import router from './router'
 import store from './store'
 import App from './App'
-import { LocalePlugin, DevicePlugin, ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin, WechatPlugin, AjaxPlugin } from 'vux'
+import { LocalePlugin, DevicePlugin, ToastPlugin, AlertPlugin, ConfirmPlugin, LoadingPlugin, WechatPlugin } from 'vux'
+import axios from 'axios'
+import Qs from 'qs'
 
 Vue.config.productionTip = false
 
@@ -17,7 +19,6 @@ Vue.use(AlertPlugin)
 Vue.use(ConfirmPlugin)
 Vue.use(LoadingPlugin)
 Vue.use(WechatPlugin)
-Vue.use(AjaxPlugin)
 Vue.use(LocalePlugin)
 
 FastClick.attach(document.body)
@@ -61,9 +62,8 @@ router.afterEach(function (to) {
   store.commit('updateLoadingStatus', {isLoading: false})
 })
 
-const wx = Vue.wechat
-
 if (process.env.NODE_ENV === 'production') {
+  const wx = Vue.wechat
   wx.ready(() => {
     console.log('wechat ready')
     // wx.onMenuShareAppMessage({
@@ -81,6 +81,24 @@ if (process.env.NODE_ENV === 'production') {
     // })
   })
 }
+
+axios.defaults.timeout = 8000
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8'
+axios.defaults.baseURL = (process.env.NODE_ENV === 'development' ? 'http://localhost:49644/' : 'http://share.cm0575.com/')
+
+axios.interceptors.request.use((config) => {
+  if (config.method === 'post' || config.method === 'put') {
+    config.data = Qs.parse(config.data, {arrayFormat: 'brackets'})
+  }
+  // headers携带token
+  // if (store.getters.getToken) {
+  //   config.headers.Authorization = `Token ${store.getters.getToken}`;
+  // }
+  return config
+}, (error) => {
+  Vue.$vux.toast.show({text: '非法输入', type: 'text', time: 1000})
+  return Promise.reject(error)
+})
 
 new Vue({
   router,

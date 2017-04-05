@@ -7,7 +7,8 @@
 <script>
   import { FormPreview } from 'vux'
   import { mapState } from 'vuex'
-  import $ from 'jquery'
+  import axios from 'axios'
+
   export default {
     name: 'confirm',
     components: {
@@ -69,36 +70,30 @@
             })
             console.log(this.recommendation)
             let vm = this
-            $.ajax({
-              url: 'http://share.cm0575.com/api/recommendation/submit',
-              type: 'POST',
-              cache: false,
-              data: this.recommendation,
-              success: function (res, tStatus, xhr) {
-                console.log(res)
-                if (res.success === true) {
-                  vm.$vux.toast.show({
-                    type: 'success',
-                    text: '提交成功'
-                  })
-                  vm.$store.dispatch('clearRecommendation')
-                  vm.$router.push('/')
-                } else {
-                  vm.$vux.toast.show({
-                    type: 'warn',
-                    text: res.data.error
-                  })
-                }
-              },
-              error: function (xhr, tStatus) {
+            axios.post('api/recommendation/submit', this.recommendation).then((res) => {
+              console.log(res)
+              vm.$vux.loading.hide()
+              var result = res.data
+              if (result.success === true) {
+                vm.$vux.toast.show({
+                  type: 'success',
+                  text: '提交成功'
+                })
+                vm.$store.dispatch('clearRecommendation')
+                vm.$router.push('/')
+              } else {
                 vm.$vux.toast.show({
                   type: 'warn',
-                  text: '出现异常'
+                  text: res.data.error
                 })
-              },
-              complete: function () {
-                vm.$vux.loading.hide()
               }
+            }, (res) => {
+              console.log(res)
+              vm.$vux.loading.hide()
+              vm.$vux.toast.show({
+                type: 'warn',
+                text: '出现异常'
+              })
             })
           }
         }]
